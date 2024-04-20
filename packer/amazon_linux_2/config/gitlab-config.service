@@ -1,0 +1,10 @@
+[Unit]
+Description=service_description
+After=network.target
+
+[Service]
+ExecStart=/usr/lib/systemd/scripts/gitlab-config.sh
+Type=simple
+
+[Install]
+WantedBy=multi-user.target

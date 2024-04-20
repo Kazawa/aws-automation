@@ -1,0 +1,11 @@
+#cloud-config
+repo_update: true
+repo_upgrade: all
+
+runcmd:
+  - /bin/curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+  - /bin/unzip awscliv2.zip -d /tmp
+  - /tmp/aws/install -i /usr/aws-cli -b /usr/bin
+  - /bin/rm -rf /aws
+  - HOSTNAME=$(/bin/aws ec2 describe-instances --instance-id $(/bin/curl -s http://169.254.169.254/latest/meta-data/instance-id) --query "Reservations[*].Instances[*].Tags[?Key=='Name'].Value" --output text)
+  - /bin/hostnamectl set-hostname $HOSTNAME --static
